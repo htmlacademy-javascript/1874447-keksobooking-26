@@ -13,6 +13,7 @@ const getRandomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
+
 // Функция, возвращающая случайное число с плавающей точкой из переданного диапазона включительно
 
 const getRandomFloat = (min, max, digit) => {
@@ -113,5 +114,4 @@ const makeAds = (count) => {
 
 
 makeAds(MAX_COUNT_AD);
-
 
