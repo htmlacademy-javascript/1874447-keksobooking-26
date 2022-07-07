@@ -33,4 +33,17 @@ const getRandomArrayElement = (elements) => elements[getRandomInt(0, elements.le
 
 const getRandomArray = (arr) => arr.sort(()=>Math.random()-0.5).slice(0, getRandomInt(0, arr.length));
 
-export {getRandomInt, getRandomFloat, getRandomArrayElement, getRandomArray};
+const numDecline = (num, nominative, genitiveSingular, genitivePlural) => {
+  if(num > 10 && (Math.round((num % 100) / 10)) === 1){
+    return genitivePlural;
+  }
+  switch(num % 10){
+    case 1: return nominative;
+    case 2:
+    case 3:
+    case 4: return genitiveSingular;
+  }
+  return genitivePlural;
+};
+
+export {getRandomInt, getRandomFloat, getRandomArrayElement, getRandomArray, numDecline};
