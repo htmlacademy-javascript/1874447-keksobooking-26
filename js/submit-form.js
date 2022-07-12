@@ -6,16 +6,17 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__element--error-text',
 });
 
+
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
 const successMessage = successTemplate.cloneNode(true);
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const errorMessage = errorTemplate.cloneNode(true);
-const main = document.querySelector('main');
+// const main = document.querySelector('main');
 const buttonClose = errorMessage.querySelector('.error__button');
 
-const openSubmitMessage = (message) => {
-  main.appendChild(message);
-};
+// const openSubmitMessage = (message) => {
+//   main.appendChild(message);
+// };
 
 document.addEventListener('keydown', (evt) => {
   if(evt.key === 'Escape') {
@@ -40,9 +41,10 @@ adForm.addEventListener('submit', (evt) => {
 
   const isValid = pristine.validate();
   if (isValid) {
-    openSubmitMessage(successMessage);
+    // openSubmitMessage(successMessage);
+    adForm.submit();
   } else {
-    openSubmitMessage(errorMessage);
+    // openSubmitMessage(errorMessage);
   }
 
 });

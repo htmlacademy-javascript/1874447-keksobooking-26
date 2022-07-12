@@ -102,14 +102,15 @@
             <option value="bungalow">Бунгало</option>
             <option value="flat" selected>Квартира</option>
             <option value="hotel">Отель</option>
-            <option value="house">Дом</option>
+            <option value="house" >Дом</option>
             <option value="palace">Дворец</option>
           </select>
         </fieldset>
         <fieldset class="ad-form__element">
           <label class="ad-form__label" for="price">Цена за ночь, руб.</label>
-          <input id="price" name="price" type="number" max="100000" placeholder="5000" required
+          <input id="price" name="price" type="number" min ="0" max="100000" placeholder="5000" required
           data-pristine-required-message="Обязательное поле"
+          data-pristine-min-message="Не соответствует минимальной цене"
           data-pristine-max-message="Максимальная цена за ночь 100 000">
           <div class="ad-form__slider"></div>
         </fieldset>
