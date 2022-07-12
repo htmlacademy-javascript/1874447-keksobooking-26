@@ -6,6 +6,21 @@ const roomNumber = adForm.querySelector('#room_number');
 const capacity = adForm.querySelector('#capacity');
 const guestNumber = capacity.querySelectorAll('option');
 
+const type = adForm.querySelector('#type');
+const price = adForm.querySelector('#price');
+
+const timeIn = adForm.querySelector('#timein');
+const timeOut = adForm.querySelector('#timeout');
+const formTime = adForm.querySelector('.ad-form__element--time');
+
+const TypeOfRoom  = {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000',
+};
+
 const NumberOfGuests = {
   1: ['1'],
   2: ['1', '2'],
@@ -37,6 +52,22 @@ const setDisabledState = () => {
     item.disabled = !item.disabled;
   });
 };
+
+const onTypeOfRoomChange = () => {
+  const minPrice = TypeOfRoom[type.value];
+  price.placeholder = minPrice;
+  price.min = minPrice;
+};
+onTypeOfRoomChange();
+
+type.addEventListener('change', onTypeOfRoomChange);
+
+const onTimeChange = (evt) => {
+  timeIn.value = evt.target.value;
+  timeOut.value = evt.target.value;
+};
+
+formTime.addEventListener('change', onTimeChange);
 
 const toggleInteractive = () => {
   adForm.classList.toggle('ad-form--disabled');
