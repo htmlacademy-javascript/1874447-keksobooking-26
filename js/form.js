@@ -78,4 +78,4 @@ const toggleInteractive = () => {
 
 toggleInteractive();
 
-export{adForm};
+export{adForm, toggleInteractive};

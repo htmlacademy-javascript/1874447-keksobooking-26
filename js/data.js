@@ -45,6 +45,7 @@ const MIN_LAT = 35.65000;
 const MAX_LAT = 35.70000;
 const MIN_LNG = 139.70000;
 const MAX_LNG = 139.80000;
+const MAX_COUNT_AD = 10;
 
 const createAd = (id) => ({
   author: {
@@ -78,4 +79,6 @@ const makeAds = (count) => {
   return arAds;
 };
 
-export {makeAds};
+const offers = makeAds(MAX_COUNT_AD);
+
+export {makeAds, offers};

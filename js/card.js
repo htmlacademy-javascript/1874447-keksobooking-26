@@ -108,8 +108,7 @@ const renderCard = (data) => {
     const addedPhoto = photo.cloneNode(true);
     photos.appendChild(addedPhoto);
   }
-
-  mapCanvas.appendChild(cardElement);
+  return cardElement;
 };
 
 export {renderCard};
