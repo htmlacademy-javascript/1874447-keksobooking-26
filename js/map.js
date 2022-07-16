@@ -1,5 +1,6 @@
 import {toggleInteractive} from './form.js';
 import {offers} from './data.js';
+import {renderCard} from './card.js';
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -38,22 +39,12 @@ marker.addTo(map);
 
 const address = document.querySelector('#address');
 
+address.value = '35.71138, 139.76797';
+
 marker.on('moveend', (evt) => {
   const coordinates = evt.target.getLatLng();
   address.value = `${coordinates.lat.toFixed(5)}, ${coordinates.lng.toFixed(5)}`;
 });
-
-const makePoints = (count) => {
-  const arPoints = [];
-
-  count.forEach((item) => {
-    arPoints.push(item.location);
-  });
-
-  return arPoints;
-};
-
-const points = makePoints(offers);
 
 const icon = L.icon({
   iconUrl: './img/pin.svg',
@@ -61,14 +52,14 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-points.forEach(({lat, lng}) => {
+offers.forEach((data) => {
   const similarMarker = L.marker({
-    lat,
-    lng,
+    lat: data.location.lat,
+    lng: data.location.lng,
   },
   {
     icon,
   });
 
-  similarMarker.addTo(map).bindPopup();
+  similarMarker.addTo(map).bindPopup(renderCard(data));
 });

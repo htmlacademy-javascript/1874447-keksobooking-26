@@ -1,6 +1,5 @@
 import {numDecline} from './util.js';
 
-const mapCanvas = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const renderFeatures = (features, container) => {
