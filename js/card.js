@@ -1,6 +1,5 @@
 import {numDecline} from './util.js';
 
-const mapCanvas = document.querySelector('#map-canvas');
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
 const renderFeatures = (features, container) => {
@@ -108,8 +107,7 @@ const renderCard = (data) => {
     const addedPhoto = photo.cloneNode(true);
     photos.appendChild(addedPhoto);
   }
-
-  mapCanvas.appendChild(cardElement);
+  return cardElement;
 };
 
 export {renderCard};

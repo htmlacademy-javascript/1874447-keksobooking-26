@@ -14,11 +14,11 @@ const timeOut = adForm.querySelector('#timeout');
 const formTime = adForm.querySelector('.ad-form__element--time');
 
 const TypeOfRoom  = {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000',
+  bungalow: 0,
+  flat: 1000,
+  hotel: 3000,
+  house: 5000,
+  palace: 10000,
 };
 
 const NumberOfGuests = {
@@ -58,7 +58,7 @@ const onTypeOfRoomChange = () => {
   price.placeholder = minPrice;
   price.min = minPrice;
 };
-onTypeOfRoomChange();
+// onTypeOfRoomChange();
 
 type.addEventListener('change', onTypeOfRoomChange);
 
@@ -78,4 +78,4 @@ const toggleInteractive = () => {
 
 toggleInteractive();
 
-export{adForm};
+export{adForm, toggleInteractive, TypeOfRoom};
