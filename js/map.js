@@ -63,3 +63,20 @@ offers.forEach((data) => {
 
   similarMarker.addTo(map).bindPopup(renderCard(data));
 });
+
+const resetMap = () => {
+  marker.setLatLng({
+    lat: 35.71138,
+    lng: 139.76797,
+  });
+
+  map.setView({
+    lat: 35.71138,
+    lng: 139.76797,
+  }, 10);
+
+  map.closePopup();
+};
+
+
+export {address, resetMap};

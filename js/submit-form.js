@@ -1,4 +1,9 @@
 import {adForm} from './form.js';
+import {sendData} from './fetch.js';
+import {showAlert} from './util.js';
+import {resetMap} from './map.js';
+import {resetSlider} from './slider.js';
+
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -11,12 +16,12 @@ const successTemplate = document.querySelector('#success').content.querySelector
 const successMessage = successTemplate.cloneNode(true);
 const errorTemplate = document.querySelector('#error').content.querySelector('.error');
 const errorMessage = errorTemplate.cloneNode(true);
-// const main = document.querySelector('main');
+const main = document.querySelector('main');
 const buttonClose = errorMessage.querySelector('.error__button');
 
-// const openSubmitMessage = (message) => {
-//   main.appendChild(message);
-// };
+const openSubmitMessage = (message) => {
+  main.appendChild(message);
+};
 
 document.addEventListener('keydown', (evt) => {
   if(evt.key === 'Escape') {
@@ -35,16 +40,26 @@ buttonClose.addEventListener('click', () => {
   errorMessage.remove();
 });
 
+const setUserFormSubmit = (onSuccess) => {
 
-adForm.addEventListener('submit', (evt) => {
-  evt.preventDefault();
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
 
-  const isValid = pristine.validate();
-  if (isValid) {
-    // openSubmitMessage(successMessage);
-    adForm.submit();
-  } else {
-    // openSubmitMessage(errorMessage);
-  }
+    const isValid = pristine.validate();
+    if (isValid) {
+      sendData(
+        () => onSuccess(successMessage),
+        () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
+        new FormData(evt.target),
+      );
+      adForm.reset();
+      resetMap();
+      resetSlider();
+    } else {
+      openSubmitMessage(errorMessage);
+    }
+  });
 
-});
+};
+
+export {setUserFormSubmit, openSubmitMessage};
