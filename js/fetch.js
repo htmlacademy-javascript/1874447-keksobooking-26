@@ -1,30 +1,22 @@
-import { renderCard } from './card.js';
+const Urls = {
+  GET: 'https://26.javascript.pages.academy/keksobooking/data',
+  POST: 'https://26.javascript.pages.academy/keksobooking',
+};
 
-const getData = () => {
-  fetch('https://26.javascript.pages.academy/keksobooking/data')
+const sendRequest = (onSuccess, onError, method, data) => {
+  fetch(
+    Urls[method],
+    {
+      method: method,
+      body: data,
+    },
+  )
     .then((response) => response.json())
     .then((offers) => {
-      renderCard(offers);
+      onSuccess(offers);
+    }).catch(() => {
+      onError();
     });
 };
 
-const sendData = (onSuccess, onFail, body) => {
-  fetch (
-    'https://26.javascript.pages.academy/keksobooking',
-    {
-      method: 'POST',
-      body,
-    },
-  ).then((response) => {
-    if (response.ok) {
-      onSuccess();
-    } else {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
-    }
-  })
-    .catch(() => {
-      onFail('Не удалось отправить форму. Попробуйте ещё раз');
-    });
-};
-
-export {getData, sendData};
+export { sendRequest };

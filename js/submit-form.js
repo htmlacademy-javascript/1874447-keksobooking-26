@@ -1,6 +1,6 @@
 import {adForm} from './form.js';
-import {sendData} from './fetch.js';
-import {showAlert} from './util.js';
+import {sendRequest} from './fetch.js';
+
 import {resetMap} from './map.js';
 import {resetSlider} from './slider.js';
 
@@ -11,55 +11,66 @@ const pristine = new Pristine(adForm, {
   errorTextClass: 'ad-form__element--error-text',
 });
 
-
-const successTemplate = document.querySelector('#success').content.querySelector('.success');
-const successMessage = successTemplate.cloneNode(true);
-const errorTemplate = document.querySelector('#error').content.querySelector('.error');
-const errorMessage = errorTemplate.cloneNode(true);
 const main = document.querySelector('main');
-const buttonClose = errorMessage.querySelector('.error__button');
 
-const openSubmitMessage = (message) => {
-  main.appendChild(message);
-};
 
-document.addEventListener('keydown', (evt) => {
+const onDocumentEscClick = (evt) => {
   if(evt.key === 'Escape') {
     evt.preventDefault();
-    successMessage.remove();
-    errorMessage.remove();
+
+    const overlay = document.querySelector('.overlay');
+
+    overlay.remove();
+
+    document.removeEventListener('keydown', onDocumentEscClick);
   }
-});
-
-document.addEventListener('click', () => {
-  successMessage.remove();
-  errorMessage.remove();
-});
-
-buttonClose.addEventListener('click', () => {
-  errorMessage.remove();
-});
-
-const setUserFormSubmit = (onSuccess) => {
-
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-
-    const isValid = pristine.validate();
-    if (isValid) {
-      sendData(
-        () => onSuccess(successMessage),
-        () => showAlert('Не удалось отправить форму. Попробуйте ещё раз'),
-        new FormData(evt.target),
-      );
-      adForm.reset();
-      resetMap();
-      resetSlider();
-    } else {
-      openSubmitMessage(errorMessage);
-    }
-  });
-
 };
 
-export {setUserFormSubmit, openSubmitMessage};
+const onDocumentClick = () => {
+  const overlay = document.querySelector('.overlay');
+
+  if (overlay) {
+    overlay.remove();
+
+    document.removeEventListener('keydown', onDocumentEscClick);
+  }
+};
+
+const onSuccess = () => {
+  const successTemplate = document.querySelector('#success').content.querySelector('.success');
+  const successMessage = successTemplate.cloneNode(true);
+
+  main.appendChild(successMessage);
+
+  const overlay = document.querySelector('.overlay');
+
+  overlay.addEventListener('click', onDocumentClick);
+
+  document.addEventListener('keydown', onDocumentEscClick);
+};
+
+const onError = () => {
+  const errorTemplate = document.querySelector('#error').content.querySelector('.error');
+  const errorMessage = errorTemplate.cloneNode(true);
+
+  main.appendChild(errorMessage);
+
+  const overlay = document.querySelector('.overlay');
+
+  overlay.addEventListener('click', onDocumentClick);
+
+  document.addEventListener('keydown', onDocumentEscClick);
+};
+
+adForm.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+
+  if (pristine.validate()) {
+    sendRequest(onSuccess, onError, 'POST', new FormData(adForm));
+    adForm.reset();
+    resetMap();
+    resetSlider();
+  } else {
+    onError();
+  }
+});
