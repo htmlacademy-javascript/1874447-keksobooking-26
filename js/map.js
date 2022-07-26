@@ -1,15 +1,11 @@
+import {sendRequest} from './fetch.js';
 import {toggleInteractive} from './form.js';
-import {offers} from './data.js';
 import {renderCard} from './card.js';
+import {showAlert} from './util.js';
 
-const map = L.map('map-canvas')
-  .on('load', () => {
-    toggleInteractive();
-  })
-  .setView({
-    lat: 35.71138,
-    lng: 139.76797,
-  }, 10);
+const MAX_PINS = 10;
+
+const map = L.map('map-canvas');
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -52,14 +48,53 @@ const icon = L.icon({
   iconAnchor: [20, 40],
 });
 
-offers.forEach((data) => {
-  const similarMarker = L.marker({
-    lat: data.location.lat,
-    lng: data.location.lng,
-  },
-  {
-    icon,
+const renderPins = (data) => {
+  data.forEach((offer) => {
+    const similarMarker = L.marker({
+      lat: offer.location.lat,
+      lng: offer.location.lng,
+    },
+    {
+      icon,
+    });
+
+    similarMarker.addTo(map).bindPopup(renderCard(offer));
+  });
+};
+
+const resetMap = () => {
+  marker.setLatLng({
+    lat: 35.71138,
+    lng: 139.76797,
   });
 
-  similarMarker.addTo(map).bindPopup(renderCard(data));
-});
+  map.setView({
+    lat: 35.71138,
+    lng: 139.76797,
+  }, 10);
+
+  map.closePopup();
+};
+
+let offers = [];
+
+const onSuccess = (data) => {
+  offers = data.slice();
+
+  renderPins(offers.slice(0, MAX_PINS));
+};
+
+const onError = () => {
+  toggleInteractive();
+  showAlert('Ошибка загрузки данных');
+};
+
+map.on('load', () => {
+  toggleInteractive();
+  sendRequest(onSuccess, onError, 'GET');
+}).setView({
+  lat: 35.71138,
+  lng: 139.76797,
+}, 10);
+
+export {address, resetMap};

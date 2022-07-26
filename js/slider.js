@@ -4,6 +4,8 @@ const sliderElement = document.querySelector('.ad-form__slider');
 const valueElement = document.querySelector('#price');
 const specialElement = document.querySelector('#type');
 
+valueElement.value = null;
+
 noUiSlider.create(sliderElement, {
   range: {
     min: TypeOfRoom[specialElement.value],
@@ -37,3 +39,9 @@ specialElement.addEventListener('change', () => {
   });
 });
 
+const resetSlider = () => {
+  valueElement.placeholder = 1000;
+  sliderElement.noUiSlider.reset();
+};
+
+export {resetSlider};

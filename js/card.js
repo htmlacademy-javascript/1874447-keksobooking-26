@@ -80,7 +80,7 @@ const renderCard = (data) => {
   }
 
   const featuresList = cardElement.querySelector('.popup__features');
-  if (data.offer.features.length > 0) {
+  if (data.offer.features && data.offer.features.length > 0) {
     renderFeatures(data.offer.features, featuresList);
   } else {
     featuresList.remove();
@@ -99,13 +99,16 @@ const renderCard = (data) => {
   const photos = cardElement.querySelector('.popup__photos');
 
   const photo = cardElement.querySelector('.popup__photo');
-
   photo.remove();
 
-  for (let i = 0; i < data.offer.photos.length; i++) {
-    photo.src = data.offer.photos[i];
-    const addedPhoto = photo.cloneNode(true);
-    photos.appendChild(addedPhoto);
+  if (data.offer.photos && data.offer.photos.length > 0) {
+    for (let i = 0; i < data.offer.photos.length; i++) {
+      photo.src = data.offer.photos[i];
+      const addedPhoto = photo.cloneNode(true);
+      photos.appendChild(addedPhoto);
+    }
+  } else {
+    photos.remove();
   }
   return cardElement;
 };

@@ -58,7 +58,6 @@ const onTypeOfRoomChange = () => {
   price.placeholder = minPrice;
   price.min = minPrice;
 };
-// onTypeOfRoomChange();
 
 type.addEventListener('change', onTypeOfRoomChange);
 
